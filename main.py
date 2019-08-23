@@ -1,5 +1,5 @@
 import time
-from display import stats, image_file
+from display import image_file
 
 # defines titles to be written on images
 category_titles = (
@@ -10,10 +10,12 @@ category_titles = (
 )
 # defines image background colors
 bg_colors = ("green", "blue", "orange", "red")
-all_stats = stats()
 keys = range(4)
 
 while True:
+    from display import stats
+
+    all_stats = stats()
     for n in keys:
         stat = all_stats[n]
         if bg_colors[n] == "green":
