@@ -35,6 +35,7 @@ def image_file(category_title, stat, rgb_color, f_name):
     img.save(image_dir + f_name + ".jpg")
 
 
+# uses config file
 config = configparser.ConfigParser()
 config.read("config.ini")
 pi_hole_api = config.get("Paths", "PiHoleApi")
