@@ -2,11 +2,12 @@ import json
 from requests_html import HTMLSession
 from PIL import Image, ImageDraw, ImageFont
 import time
+import configparser
 
 # scrapes statistics from website hosted on my Raspberry pi running pi-hole
 def stats():
     session = HTMLSession()
-    r = session.get("http://rpi-hole/admin/api.php")
+    r = session.get(pi_hole_api)
     json_string = r.text
     parsed_json = json.loads(json_string)
     total_queries = parsed_json["dns_queries_today"]
@@ -20,8 +21,8 @@ def stats():
 def image_file(category_title, stat, rbg_color, f_name):
     W, H = (320, 240)
     img = Image.new("RGB", (W, H), color=rgb_color)
-    fnt_small = ImageFont.truetype("C:\\Windows\\Fonts\\Arial\\ariblk.ttf", 25)
-    fnt_big = ImageFont.truetype("C:\\Windows\\Fonts\\Arial\\ariblk.ttf", 60)
+    fnt_small = ImageFont.truetype(arial_black_font, 25)
+    fnt_big = ImageFont.truetype(arial_black_font, 60)
     d = ImageDraw.Draw(img)
     category_title_w, category_title_h = d.textsize(category_title, font=fnt_small)
     d.text(
@@ -32,8 +33,14 @@ def image_file(category_title, stat, rbg_color, f_name):
     )
     stat_w, stat_h = d.textsize(stat, font=fnt_big)
     d.text(((W - stat_w) / 2, (H - stat_h) / 2), stat, font=fnt_big, fill="black")
-    img.save("E:\\Users\\draugr\\Downloads\\Pi-Hole\\" + f_name + ".jpg")
+    img.save(image_dir + f_name + ".jpg")
 
+
+config = configparser.ConfigParser()
+config.read("config.ini")
+pi_hole_api = config.get("Paths", "PiHoleApi")
+arial_black_font = config.get("Paths", "ArialBlackFont")
+image_dir = config.get("Paths", "ImageDir")
 
 category_titles = (
     "Total Queries",
