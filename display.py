@@ -25,17 +25,19 @@ def image_file(category_title, stat, rgb_color, f_name):
     d = ImageDraw.Draw(img)
     category_title_w, category_title_h = d.textsize(category_title, font=fnt_small)
     d.text(
+        # horizontally centers title text and places it above statistic
         ((W - category_title_w) / 2, (H - category_title_h) / 4),
         category_title,
         font=fnt_small,
         fill="black",
     )
     stat_w, stat_h = d.textsize(stat, font=fnt_big)
+    # centers statistic
     d.text(((W - stat_w) / 2, (H - stat_h) / 2), stat, font=fnt_big, fill="black")
     img.save(image_dir + f_name + ".jpg")
 
 
-# uses config file
+# uses config.ini file
 config = configparser.ConfigParser()
 config.read("config.ini")
 pi_hole_api = config.get("Paths", "PiHoleApi")
