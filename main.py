@@ -1,4 +1,5 @@
 import time
+import datetime
 from display import image_file
 
 # defines titles to be written on images
@@ -16,6 +17,7 @@ while True:
     from display import stats
 
     all_stats = stats()
+    time_text = datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
     for n in keys:
         stat = all_stats[n]
         if bg_colors[n] == "green":
@@ -32,6 +34,6 @@ while True:
             rgb_color = "rgb(221, 75, 57)"
         if bg_colors[n] in ("green", "blue", "red"):
             stat = "{:,}".format(stat)  # places commas where they should be
-        image_file(category_titles[n], stat, rgb_color, f_name)
+        image_file(category_titles[n], stat, time_text, rgb_color, f_name)
     time.sleep(60)
 
